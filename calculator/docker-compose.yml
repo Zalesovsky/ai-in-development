@@ -1,0 +1,15 @@
+services:
+  expense-calculator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: expense-calculator
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - expense-network
+
+networks:
+  expense-network:
+    driver: bridge

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .test-data-btn {
+            background-color: #2196F3;
+        }
+
+        .test-data-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Expense Calculator</h1>
+        <div class="button-group">
+            <button onclick="populateTestData()" class="test-data-btn">Load Test Data</button>
+            <button onclick="calculate()">Calculate</button>
+        </div>
+        <table id="expenseTable">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount ($)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" class="category" placeholder="Enter category"></td>
+                    <td><input type="number" class="amount" placeholder="Enter amount"></td>
+                    <td><button onclick="addExpense()">Add</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="results" class="results" style="display: none;">
+            <h2>Results</h2>
+            <p>Total Expenses: $<span id="total"></span></p>
+            <p>Average Daily Expense: $<span id="average"></span></p>
+            <h3>Top 3 Largest Expenses:</h3>
+            <ul id="topExpenses"></ul>
+        </div>
+        <div id="error" class="error"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{
+    "name": "expense-calculator-tests",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "jest --coverage --colors"
+    },
+    "devDependencies": {
+        "jest": "^29.0.0",
+        "jest-environment-jsdom": "^29.0.0"
+    },
+    "jest": {
+        "testEnvironment": "jsdom"
+    }
+}

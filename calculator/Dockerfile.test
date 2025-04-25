@@ -1,0 +1,7 @@
+FROM node:18-alpine
+WORKDIR /app
+COPY src/frontend/script.js ./
+COPY src/tests/script.test.js ./
+COPY src/tests/package.json ./
+RUN npm install
+CMD ["npm", "test"]
