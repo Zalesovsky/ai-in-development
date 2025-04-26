@@ -6,6 +6,10 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+# Удаляем только образ api-testing, если он существует
+echo -e "${YELLOW}Removing old api-testing image if exists...${NC}"
+docker rmi api-testing 2>/dev/null || true
+
 echo -e "${YELLOW}Building Docker image...${NC}"
 docker build -t api-testing .
 

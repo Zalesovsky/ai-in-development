@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
 # Function to display the menu
 show_menu() {
     echo "Expense Calculator Management"
@@ -13,69 +19,82 @@ show_menu() {
     echo -n "Enter your choice [1-5]: "
 }
 
+# Function to remove old images
+remove_old_images() {
+    echo -e "${YELLOW}Removing old images...${NC}"
+    docker rmi calculator-expense-calculator:latest 2>/dev/null || true
+    docker rmi calculator-expense-calculator-tests:latest 2>/dev/null || true
+}
+
 # Function to start the application
 start_app() {
-    echo "Starting Expense Calculator..."
+    echo -e "${YELLOW}Starting Expense Calculator...${NC}"
     docker compose -f docker-compose.yml up -d
 
     if [ $? -eq 0 ]; then
-        echo "Application started successfully!"
+        echo -e "${GREEN}Application started successfully!${NC}"
         echo "You can access it at http://localhost:8080"
     else
-        echo "Failed to start the application"
+        echo -e "${RED}Failed to start the application${NC}"
         return 1
     fi
 }
 
 # Function to rebuild the application
 rebuild_app() {
-    echo "Stopping existing containers..."
+    echo -e "${YELLOW}Stopping existing containers...${NC}"
     docker compose -f docker-compose.yml down
 
-    echo "Rebuilding the application..."
+    # Remove old images before building
+    remove_old_images
+
+    echo -e "${YELLOW}Rebuilding the application...${NC}"
     docker compose -f docker-compose.yml build --no-cache
 
     if [ $? -eq 0 ]; then
-        echo "Application rebuilt successfully!"
+        echo -e "${GREEN}Application rebuilt successfully!${NC}"
         echo "You can start it using option 1"
     else
-        echo "Failed to rebuild the application"
+        echo -e "${RED}Failed to rebuild the application${NC}"
         return 1
     fi
 }
 
 # Function to stop the application
 stop_app() {
-    echo "Stopping Expense Calculator..."
+    echo -e "${YELLOW}Stopping Expense Calculator...${NC}"
     docker compose -f docker-compose.yml down
 
     if [ $? -eq 0 ]; then
-        echo "Application stopped successfully!"
+        echo -e "${GREEN}Application stopped successfully!${NC}"
     else
-        echo "Failed to stop the application"
+        echo -e "${RED}Failed to stop the application${NC}"
         return 1
     fi
 }
 
 # Function to run tests with coverage
 run_tests_with_coverage() {
-    echo "Building test container..."
-    docker build -f Dockerfile.test -t expense-calculator-tests .
+    # Remove old images before building test container
+    remove_old_images
+    
+    echo -e "${YELLOW}Building test container...${NC}"
+    docker build -f Dockerfile.test -t calculator-expense-calculator-tests .
 
     if [ $? -eq 0 ]; then
-        echo "Test container built successfully!"
-        echo "Running tests with coverage..."
-        docker run --rm expense-calculator-tests
+        echo -e "${GREEN}Test container built successfully!${NC}"
+        echo -e "${YELLOW}Running tests with coverage...${NC}"
+        docker run --rm calculator-expense-calculator-tests
 
         if [ $? -eq 0 ]; then
-            echo "Tests completed successfully!"
+            echo -e "${GREEN}Tests completed successfully!${NC}"
             echo "Coverage report has been generated"
         else
-            echo "Failed to run tests"
+            echo -e "${RED}Failed to run tests${NC}"
             return 1
         fi
     else
-        echo "Failed to build test container"
+        echo -e "${RED}Failed to build test container${NC}"
         return 1
     fi
 }
@@ -103,7 +122,7 @@ while true; do
             exit 0
             ;;
         *)
-            echo "Invalid option. Please try again."
+            echo -e "${RED}Invalid option. Please try again.${NC}"
             ;;
     esac
 
